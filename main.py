@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from Menu_settings import Menu_settings
-
+from test_level import test_level
 
 class Buttons(pygame.sprite.Sprite):
     def __init__(self,image_path,cof_x,cof_y):
@@ -78,7 +78,6 @@ button_settings = Buttons("images/button_menu_settings.png", 2, 1.6)
 
 while True:
     bg_menu_file = pygame.transform.scale(bg_menu_load, (screen.get_width(), screen.get_height()))
-
     screen.blit(bg_menu_file, (i, 0))
     screen.blit(bg_menu_file, (screen.get_width() + i, 0))
     if i <= -width:
@@ -112,6 +111,7 @@ while True:
             if button_play.get_rect().collidepoint(event.pos):
                 if event.button == 1:
                     button_play.update_image_from_event("images/button_menu_play.png")
+                    test_level(screen)
             elif button_settings.get_rect().collidepoint(event.pos):
                 if event.button == 1:
                     button_settings.update_image_from_event("images/button_menu_settings.png")
