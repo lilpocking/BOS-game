@@ -56,7 +56,7 @@ def test_level(screen):
             rect_of_text = text_on_screen.get_rect()
             rect_of_text.center = (rect_of_text.width//2, screen.get_height() - rect_of_text.height//2)
             screen.blit(text_on_screen, rect_of_text)
-            if val != "Couldn't open port" and val != '':
+            if val != "Nothing" and val != '':
                 number_in_port = float(val)
                 if not max_finded:
                     find_of_max[2] = find_of_max[1]
