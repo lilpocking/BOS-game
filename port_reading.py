@@ -1,14 +1,19 @@
 import serial
-f = open('settings.txt', 'r')
-str1 = f.readline()
-str1 = f.readline()
-str1 = f.readline()
-str2 = f.readline()
-f.close()
-str1 = str1[:-1]
-str2 = str2[:-1]
-ser = serial.Serial(str1, int(str2), timeout=5)
+
+ser = serial.Serial()
+def open_port():
+    global ser
+    f = open('settings.txt', 'r')
+    str1 = f.readline()
+    str1 = f.readline()
+    str1 = f.readline()
+    str2 = f.readline()
+    f.close()
+    str1 = str1[:-1]
+    str2 = str2[:-1]
+    ser = serial.Serial(str1, int(str2), timeout=5)
 def get_value():
+    global ser
     if ser.isOpen():
         try:
             val = ser.readline().decode("UTF-8")

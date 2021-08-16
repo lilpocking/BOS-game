@@ -3,14 +3,14 @@ import pygame.image
 from tower_class import Tower
 from escape_menu import escape_menu
 from port_reading import serclose
-
+from port_reading import open_port
 from port_reading import get_value
 WHITE = (255, 255, 255)
 text_colore = (245, 245, 245)
 
 
 def test_level(screen):
-
+    open_port()
 
     size = [screen.get_width(), screen.get_height()]
     level = True
