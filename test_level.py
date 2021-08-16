@@ -2,6 +2,7 @@ import pygame as pg
 import pygame.image
 from tower_class import Tower
 from escape_menu import escape_menu
+from port_reading import serclose
 
 from port_reading import get_value
 WHITE = (255, 255, 255)
@@ -9,6 +10,8 @@ text_colore = (245, 245, 245)
 
 
 def test_level(screen):
+
+
     size = [screen.get_width(), screen.get_height()]
     level = True
     clock = pg.time.Clock()
@@ -69,6 +72,7 @@ def test_level(screen):
             if events.type == pg.KEYDOWN:
                 if events.key == pg.K_ESCAPE:
                     #level = False
+                    serclose()
                     s = escape_menu(screen)
                     if s == "1":
                         level = False
@@ -76,6 +80,7 @@ def test_level(screen):
                     if tower.index_of_open_tower_up():
                         win = True
             if events.type == pg.QUIT:
+                serclose()
                 pg.quit()
                 quit()
 
@@ -114,6 +119,7 @@ def test_level(screen):
             if not alpha_rythm:
                 if tower.index_of_open_tower_up():
                     win = True
+                need_alpha = True
 
         tower.draw()
 

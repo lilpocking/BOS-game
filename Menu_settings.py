@@ -4,6 +4,7 @@ import sys
 import glob
 from pygame.locals import *
 
+
 # Find open ports
 def serial_ports():
     if sys.platform.startswith('win'):
