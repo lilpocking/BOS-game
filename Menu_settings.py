@@ -1,31 +1,7 @@
 import pygame
 import serial
-import sys
-import glob
 from pygame.locals import *
-
-
-# Find open ports
-def serial_ports():
-    if sys.platform.startswith('win'):
-        ports = ['COM%s' % (i + 1) for i in range(256)]
-    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
-        # this excludes your current terminal "/dev/tty"
-        ports = glob.glob('/dev/tty[A-Za-z]*')
-    elif sys.platform.startswith('darwin'):
-        ports = glob.glob('/dev/tty.*')
-    else:
-        raise EnvironmentError('Unsupported platform')
-
-    result = []
-    for port in ports:
-        try:
-            s = serial.Serial(port)
-            s.close()
-            result.append(port)
-        except (OSError, serial.SerialException):
-            pass
-    return result
+import serial.tools.list_ports
 
 class Text():
     def __init__(self, screen, text='text', color=(0, 0, 0), cof_x=0, cof_y=0, smooth=False,selects={"select": None}, saved_key=""):
@@ -112,10 +88,19 @@ def Menu_settings(screen):
     bg_menu_load = pygame.image.load("background/Menu_settings.png")
     bg_menu_file = pygame.transform.scale(bg_menu_load, (screen.get_width(),screen.get_height()))
     run = True
-    res = serial_ports()
     text_colore = (245,245,245)
     save = []
     clock = pygame.time.Clock()
+
+
+
+    list = serial.tools.list_ports.comports()
+    element = {}
+    for i in list:
+        element[str(i.device)] = []
+        element[str(i.device)].append(str(i.device))
+
+
 
     with open("settings.txt", "r") as file:
         while True:
@@ -123,6 +108,10 @@ def Menu_settings(screen):
             if not line:
                 break
             save.append(line[0:-1])
+
+
+
+
     text_window_size = Text(
         screen,
         'Window size:        ',
@@ -151,18 +140,13 @@ def Menu_settings(screen):
         saved_key=save[1]
     )
 
-
-    temp = {}
-    for key in res:
-        temp[key] = []
-        temp[key].append(key)
     text_finded_ports = Text(
         screen,
         "Used port:      ",
         text_colore,
         2,
         3.19,
-        selects=temp,
+        selects=element,
         saved_key=save[2]
     )
 
@@ -184,7 +168,6 @@ def Menu_settings(screen):
         saved_key=save[3]
     )
     save.clear()
-    temp.clear()
     selected_option = {
         0: text_window_size,
         1: text_fullscrean,

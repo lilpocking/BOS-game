@@ -2,6 +2,7 @@ import pygame
 import pygame as pg
 from button_class import Button
 from Menu_settings import Menu_settings
+from port_reading import serclose
 
 button_arr = []
 
@@ -45,8 +46,10 @@ def escape_menu(screen):
                                 run = False
                             if i == 1:
                                 Menu_settings(screen)
+                                serclose()
                             if i == 2:
                                 button_arr.clear()
+                                serclose()
                                 return "1"
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
