@@ -14,12 +14,12 @@ class Tower:
     def add_image_off_floor(self, file_path):
         temp = pg.image.load(file_path)
         self.arr_orig_image.append(temp)
-        temp_load = pg.transform.scale(temp, (int(temp.get_width() * self.screen.get_width()/1920), int(temp.get_height() * self.screen.get_height()/1080 - 100 * self.screen.get_height() / 1080)))
+        temp_load = pg.transform.scale(temp, (int(temp.get_width() * self.screen.get_width()/1920), int(temp.get_height() * self.screen.get_height()/1080)))
         self.arr_image.append(temp_load)
 
     def resize_image_floor(self):
         for i in range(len(self.arr_image)):
-            self.arr_image[i] = pg.transform.scale(self.arr_orig_image[i], (int(self.arr_orig_image[i].get_width() * self.screen.get_width()/1920), int(self.arr_orig_image[i].get_height() * self.screen.get_height()/1080 - 100 * self.screen.get_height() / 1080)))
+            self.arr_image[i] = pg.transform.scale(self.arr_orig_image[i], (int(self.arr_orig_image[i].get_width() * self.screen.get_width()/1920), int(self.arr_orig_image[i].get_height() * self.screen.get_height()/1080)))
 
     def draw(self):
         if self.check_size != [self.screen.get_width(), self.screen.get_height()]:
@@ -45,5 +45,4 @@ class Tower:
                 self.index_of_open_floor = len(self.arr_image) - 1
             return True
         else:
-            print(self.index_of_open_floor)
             return False

@@ -11,21 +11,19 @@ def open_port():
     f.close()
     str1 = str1[:-1]
     str2 = str2[:-1]
-    ser = serial.Serial(str1, int(str2), timeout=5)
+    ser = serial.Serial(str1, int(str2), timeout = 2)
 def get_value():
     global ser
     if ser.isOpen():
-        try:
-            val = ser.readline().decode("UTF-8")
-        finally:
+        val = ser.readline().decode("UTF-8")
+        if val == '':
             return "Nothing"
         print(val)
         return str(val)
     else:
         ser.open()
-        try:
-            val = ser.readline().decode("UTF-8")
-        finally:
+        val = ser.readline().decode("UTF-8")
+        if val == '':
             return "Nothing"
         print(val)
         return str(val)

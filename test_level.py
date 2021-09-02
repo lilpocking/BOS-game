@@ -11,7 +11,8 @@ text_colore = (245, 245, 245)
 
 def test_level(screen):
     open_port()
-
+    sound_of_rythm = pg.mixer.Sound("towers/appear.mp3")
+    
     size = [screen.get_width(), screen.get_height()]
     level = True
     clock = pg.time.Clock()
@@ -45,9 +46,8 @@ def test_level(screen):
 
     while level:
         screen.fill((124, 124, 124))
-        val = get_value()
         screen.blit(ground_on_screen, (0, screen.get_height() - ground_on_screen.get_height()))
-
+        val = get_value()
         if size != [screen.get_width(), screen.get_height()]:
             size = [screen.get_width(), screen.get_height()]
             ground_on_screen = pygame.transform.scale(image_ground, (int(image_ground.get_width() * screen.get_width() / 1920), int(image_ground.get_height() * screen.get_height() / 1080)))
@@ -66,6 +66,7 @@ def test_level(screen):
                     find_of_lower[2] = find_of_lower[1]
                     find_of_lower[1] = find_of_lower[0]
                     find_of_lower[0] = number_in_port
+                    #print(find_of_lower[0], find_of_lower[1], find_of_lower[2])
 
 
         for events in pg.event.get():
@@ -79,22 +80,29 @@ def test_level(screen):
                 if events.key == pg.K_o:
                     if tower.index_of_open_tower_up():
                         win = True
+                if events.type == pygame.KEYDOWN:
+                    if events.key == pygame.K_f:
+                        tower.index_of_open_tower_up()
             if events.type == pg.QUIT:
                 serclose()
                 pg.quit()
                 quit()
 
         if number_in_port != 0:
-                if find_of_max[0] < find_of_max[1] and find_of_max[1] > find_of_max[2]:
+                if not max_finded and find_of_max[0] < find_of_max[1] and find_of_max[1] > find_of_max[2]:
                     max_finded = True
                     max = find_of_max[1]
-                if max_finded and find_of_lower[0] > find_of_lower[1] and find_of_lower[1] < find_of_lower[0] and find_of_lower[2] != 0:
+                    find_of_lower[2] = find_of_max[1]
+                    find_of_lower[1] = find_of_max[0]
+                    val = get_value()
+                    find_of_lower[0] = float(val)
+                if max_finded and find_of_lower[0] > find_of_lower[1] and find_of_lower[1] < find_of_lower[2] and find_of_lower[1] != 0 and find_of_lower[0] !=0:
                     lower_finded = True
                     low = find_of_lower[1]
 
                 if max_finded and lower_finded:
-                    print(max, low)
-                    if abs(max - low) > 13:
+                    print(max, " - ",low, " = ", abs(max - low))
+                    if abs(max - low) > 15:
                         text_of_rythm = text.render("Beta-rythm", False, (255, 255, 255))
                         alpha_rythm = False
                     else:
@@ -102,9 +110,10 @@ def test_level(screen):
                         alpha_rythm = True
                     max_finded = False
                     lower_finded = False
-                    for i in range(len(find_of_max)):
-                        find_of_max[i] =0
-                        find_of_lower[i] =0
+                    find_of_max[2] = find_of_lower[1]
+                    find_of_max[1] = find_of_lower[0]
+                    find_of_max[0] = float(get_value())
+                    
                 rect_of_rythm = text_of_rythm.get_rect()
                 rect_of_rythm.bottomleft = rect_of_text.topleft
                 screen.blit(text_of_rythm, rect_of_rythm)
@@ -115,11 +124,15 @@ def test_level(screen):
                 if tower.index_of_open_tower_up():
                     win = True
                 need_alpha = False
+                if not win:
+                    sound_of_rythm.play()
         else:
             if not alpha_rythm:
                 if tower.index_of_open_tower_up():
                     win = True
                 need_alpha = True
+                if not win:
+                    sound_of_rythm.play()
 
         tower.draw()
 
