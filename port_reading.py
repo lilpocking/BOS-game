@@ -11,7 +11,7 @@ def open_port():
     f.close()
     str1 = str1[:-1]
     str2 = str2[:-1]
-    ser = serial.Serial(str1, int(str2), timeout = 2)
+    ser = serial.Serial(str1, int(str2), timeout = 10)
 def get_value():
     global ser
     if ser.isOpen():
